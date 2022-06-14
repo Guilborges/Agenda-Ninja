@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diff</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>
+struct NomeNinja {
+    var nome: [String]
+    var caracteristica: [String]
+}
+show("-&gt;🥷🏻Bem-vindo Ninja🥷🏻&lt;-")
+show("Vamos lá, me diga seu nome ninja?✏️")
+var name = ask("nome")
+show("Olá " + name + " , bom ver você por aqui novamente ninja!🥷🏻")
+show("🍀Vamos conhecer os ninjas da Vila da Folha!🍀")
+show(#imageLiteral(resourceName: "Vila da Folha.webp"))
+
+//nomeninja tem um vetor para nome e um vetor para caracteristica
+var objeto = NomeNinja(nome: ["Naruto" ,"Sakura","Kakashi","Tsunade","Jiraya","Orochimaru","Sarutobi","Lee","Gaara"], caracteristica: [" Insistente"," Inteligência"," Calmo"," Rapida"," Mestre do Naruto"," Malvado"," Grande Porte Fisico", " Fortão"," Cabelo Vermelho"] )
+
+
+var escolher: Int 
+
+repeat {
+    show("🖍Escolha uma opção🖍")
+    show(" 1-Lista de Ninjas📝 \n 2-Pesquisar🔍 \n 3-Organizar📚 \n 4-Adicionar➕ \n 5-Editar Ninja👤\n 6-Editar característica Ninja🗣 \n 7-Sair👉🏻" )
+    escolher = askForNumber("1, 2, 3, 4, 5, 6, 7")
+    switch escolher {
+    case 1:
+        show("Lista de Ninjas📝") 
+        mostrar()
+        pauseUntilTapped(message:"Voltar para menu ")
+    case 2:
+        show("Buscar Ninja🔍")
+        var nome = ask("Escreva um nome de um ninja")
+        var indiceBusca = buscarNinja(nome: nome.capitalized)
+        if indiceBusca == -1{
+            show("Ninja não encontrado!")
+            pauseUntilTapped(message:"Voltar para menu de tópicos")
+        }
+        
+        else{
+            show("\(nome.capitalized) encontrado na posição \(indiceBusca + 1), e possui a caracteristica \(objeto.caracteristica[indiceBusca])")
+        }
+    case 3:
+        show("Organizar📚")
+        pauseUntilTapped(message:"Organizar Ninjas🥷🏻")
+//        objeto.nome.sort()
+        objeto = ordenarNome(vetor: objeto)
+        mostrar()
+        pauseUntilTapped(message:"Voltar para menu de tópicos")
+    case 4:
+        show("Adicionar➕")
+        nomeAdd = ask("Escreva um nome de um ninja")
+        caracteristicaAdd = ask("Escreva a caracteristica do ninja")
+        salvar(nome: nomeAdd, caracteristica: caracteristicaAdd)
+        show("O nome foi adicionado a lista de ninjas!")
+    case 5:
+        show("Editar Ninja👤")
+        editarNinja(nome: novoNome)
+        
+    case 6:
+        show("Editar característica Ninja🗣")
+        editarNinjacaracteristica(caracteristica: novoCarac)
+
+    case 7:
+        show("🔚Saída🔚")
+        show("Muito interessante saber sobre a vida dos ninjas da vila oculta, espero que tenha gostado de conhecer um pouco sobre cada um, voltem sempre ninja!")
+        show(#imageLiteral(resourceName: "Naruto Final.jpeg"))
+        show("👋🏻Obrigado👋🏻")
+        
+        break
+    default:
+        show("📍Digite um numero válido📍")   
+    }
+} while escolher != 7
+    
+func buscarNinja(nome busca: String) -&gt; Int{
+        for i in 0 ..&lt; objeto.nome.count {
+            //verifica se tem o ninja em busca
+            if objeto.nome[i] == busca{
+                return i
+            }
+        }
+        // se for falsa a condicao ele retorna -1 
+        return -1
+            }
+//mostra os o nome e a característica
+func mostrar() {
+    for i in 0 ..&lt; objeto.nome.count {
+        //o objeto tipo caracteristica que pega seu indice assim pro nome
+        show("\nNome: \(objeto.nome[i])\nCaracterística: \(objeto.caracteristica[i])")
+//        show(objeto.Foto[i])
+    }
+    
+}
+
+//salvar nome inseridos
+    func salvar(nome: String, caracteristica: String){
+        print(nome)
+        objeto.nome.append(nomeAdd)
+        objeto.caracteristica.append(caracteristicaAdd)
+    }
+
+var nomeAdd: String
+var caracteristicaAdd: String
+        
+//Sortear(Organizar)
+//objeto.nome.sort()
+
+// Editar Ninjas
+func editarNinja(nome: String){
+    alterarNome = askForChoice("Qual ninja deseja editar?", strings: objeto.nome)
+    
+    for i in 0 ..&lt; objeto.nome.count {
+        if objeto.nome[i] == alterarNome {
+            novoNome = ask("Digite o novo nome do Ninja")
+            objeto.nome[i] = novoNome
+            show("O nome do Ninja foi alterado!")
+            break
+        } 
+    }
+}
+var novoNome: String
+var alterarNome: String
+
+
+// Editar caracrterísticas
+func editarNinjacaracteristica(caracteristica: String){
+    alterarCarac = askForChoice("Qual característica deseja editar?", strings: objeto.caracteristica)
+    
+    for i in 0 ..&lt; objeto.caracteristica.count {
+        if objeto.caracteristica[i] == alterarCarac {
+            novoCarac = ask("Digite a nova característica do Ninja")
+            objeto.caracteristica[i] = novoCarac
+            show("A característica do Ninja foi alterado!")
+            break
+        } 
+    }
+}
+var novoCarac: String
+var alterarCarac: String
+
+
+//organizar
+func ordenarNome(vetor: NomeNinja) -&gt; NomeNinja{
+    var vetorOrdenado = vetor
+    for i in 0..&lt;vetorOrdenado.nome.count - 1{
+        for j in i+1..&lt;vetorOrdenado.nome.count{
+            if vetorOrdenado.nome[i] &gt; vetorOrdenado.nome[j]{
+                // Troca com o nome 
+                var aux = vetorOrdenado.nome[i]
+                vetorOrdenado.nome[i] = vetorOrdenado.nome[j]
+                vetorOrdenado.nome[j] = aux
+                    
+                aux = vetorOrdenado.caracteristica[i]
+                vetorOrdenado.caracteristica[i] = vetorOrdenado.caracteristica[j]
+                vetorOrdenado.caracteristica[j] = aux
+            
+            }
+        }
+    }
+    return vetorOrdenado
+}
+
+
+
+
+</string>
+			<key>ModifiedRange</key>
+			<string>{265, 5390}</string>
+			<key>OriginalContent</key>
+			<string>show("/*#-localizable-zone(whatIsYourNameText)*/What’s your name?/*#-end-localizable-zone*/")
+
+let name = ask("/*#-localizable-zone(nameText)*/Name/*#-end-localizable-zone*/")
+
+show("/*#-localizable-zone(hiText)*/Hi /*#-end-localizable-zone*/" + name)
+</string>
+			<key>OriginalRange</key>
+			<string>{265, 252}</string>
+		</dict>
+	</array>
+	<key>File</key>
+	<string>Chapters/Answers.playgroundchapter/Pages/Text.playgroundpage/main.swift</string>
+</dict>
+</plist>
